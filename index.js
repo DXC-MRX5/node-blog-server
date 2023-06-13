@@ -3,6 +3,7 @@ const dataRouter = require ("./routes/data");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const port = process.env.PORT;
+const connectDb = require("./config/mongoose");
 
 const app=express();
 app.use(cors({origin:"*"}));
@@ -14,6 +15,12 @@ app.get("/", (req, res)=>{
 });
 app.use("/api/blog", dataRouter);
 
-app.listen(port, ()=>{
-    console.log(`Server is connected to the port ${port}`);
+app.listen(port, async ()=>{
+    try{
+        await connectDb();
+        console.log("server is connected to the port "+port);
+    }
+    catch(err){
+        console.log("error in running server", err);
+    }
 })

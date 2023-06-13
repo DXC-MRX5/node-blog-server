@@ -1057,71 +1057,123 @@ const dataStore = [
   }
 ]
 const express=require("express");
+const articleModel = require("../model/articleModel");
 
-const Food=(req, res)=>{
-  const data = dataStore.filter((info)=>info.cat === 'food');
+const addData = async(req,res)=>{
+  try{
+    const articleData=dataStore.map((info)=>{
+        return({
+          cat:info.cat,
+          title:info.title,
+          genre:info.genre,
+          description:info.description,
+          derector:info.derector,
+          cast:info.cast,
+          date:info.date,
+          imdb:info.imdb,
+          poster:info.poster,
+          author:info.author,
+          gen:info.gen,
+          rating:info.rating,
+          heading:info.heading,
+          process:info.process,
+          subheading:info.subheading,
+          show:info.show,
+          isTop:info.isTop,
+          link:info.link,
+        })
+    })
+    await articleModel.insertMany(articleData);
+    return res.send({message:"data inserted successfully..."})
+}
+catch(err){
+    console.log(err);
+}
+}
+
+const Food= async(req, res)=>{
+  // const data = dataStore.filter((info)=>info.cat === 'food');
+  const data = await articleModel.find({cat:"food"});
   res.send(data);
 }
-const Fitness=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'fitness');
+const Fitness= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'fitness');
+    const data = await articleModel.find({cat:"fitness"});
     res.send(data);
   }
-  const Hollywood=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'hollywood');
+  const Hollywood= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'hollywood');
+    const data = await articleModel.find({cat:"hollywood"});
     res.send(data);
   }
-  const Bollywood=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'bollywood');
+  const Bollywood= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'bollywood');
+    const data = await articleModel.find({cat:"bollywood"});
     res.send(data);
   }
-  const Tech=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'tech');
+  const Tech= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'tech');
+    const data = await articleModel.find({cat:"tech"});
     res.send(data);
   }
-  const Latest=(req, res)=>{
-    const dataLat = dataStore.filter((info)=>info.cat === 'latest');
-    const dataTop = dataStore.filter((info)=>info.isTop === 'yes');
-    const data = dataLat.concat(dataTop);
+  const Latest= async(req, res)=>{
+    // const dataLat = dataStore.filter((info)=>info.cat === 'latest');
+    // const dataTop = dataStore.filter((info)=>info.isTop === 'yes');
+    // const data = dataLat.concat(dataTop);
+    const data = await articleModel.find({$or:[{cat:"latest"}, {isTop:"yes"}]});
     res.send(data);
   }
-  const TopTech=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'top-tech');
+  const TopTech= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'top-tech');
+    const data = await articleModel.find({cat:"top-tech"});
     res.send(data);
   }
-  const TopFit=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'top-fit');
+  const TopFit= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'top-fit');
+    const data = await articleModel.find({cat:"top-fit"});
     res.send(data);
   }
-  const TopFood=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'top-food');
+  const TopFood= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'top-food');
+    const data = await articleModel.find({cat:"top-food"});
     res.send(data);
   }
-  const TopBolly=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'top-bolly');
+  const TopBolly= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'top-bolly');
+    const data = await articleModel.find({cat:"top-bolly"});
     res.send(data);
   }
-  const TopHolly=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'top-holly');
+  const TopHolly= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'top-holly');
+    const data = await articleModel.find({cat:"top-holly"});
     res.send(data);
   }
-  const Actual=(req, res)=>{
-    const receivedParam = JSON.parse(req.query.id);
+  const Actual= async(req, res)=>{
+    const receivedParam = req.query.id;
     console.log("received from url => "+receivedParam);
-    const data = dataStore.filter((item)=>item.id === receivedParam);
+    const data = await articleModel.findById(receivedParam);
     res.send(data);
   }
-  const Home=(req, res)=>{
-    const dataBol = dataStore.filter((info)=>info.cat === 'bollywood').filter((info)=>info.imdb >=8.3);
-    const dataTec = dataStore.filter((info)=>info.cat === 'tech').filter((info)=>info.rating >=8.8);
-    const dataFit = dataStore.filter((info)=>info.cat === 'fitness').filter((info)=>info.rating >=8.5);
-    const dataHol = dataStore.filter((info)=>info.cat === 'hollywood').filter((info)=>info.imdb >=8.8);
-    const dataFd = dataStore.filter((info)=>info.cat === 'food').filter((info)=>info.rating >=8.8);
-    const data = dataBol.concat(dataTec, dataFit, dataHol, dataFd);
+  const Home= async(req, res)=>{
+    // const dataBol = dataStore.filter((info)=>info.cat === 'bollywood').filter((info)=>info.imdb >=8.3);
+    // const dataTec = dataStore.filter((info)=>info.cat === 'tech').filter((info)=>info.rating >=8.8);
+    // const dataFit = dataStore.filter((info)=>info.cat === 'fitness').filter((info)=>info.rating >=8.5);
+    // const dataHol = dataStore.filter((info)=>info.cat === 'hollywood').filter((info)=>info.imdb >=8.8);
+    // const dataFd = dataStore.filter((info)=>info.cat === 'food').filter((info)=>info.rating >=8.8);
+    // const data = dataBol.concat(dataTec, dataFit, dataHol, dataFd);
+    const data = await articleModel.find({$or:[
+      {cat:"bollywood", imdb:{$gte:"8.3"}},
+      {cat:"hollywood", imdb:{$gte:"8.8"}},
+      {cat:"tech", rating:{$gte:8.8}},
+      {cat:"fitness", rating:{$gte:8.5}},
+      {cat:"food", rating:{$gte:8.8}},
+    ]});
     res.send(data);
   }
-  const More=(req, res)=>{
-    const data = dataStore.filter((info)=>info.cat === 'more');
+  const More= async(req, res)=>{
+    // const data = dataStore.filter((info)=>info.cat === 'more');
+    const data = await articleModel.find({cat:"more"});
     res.send(data);
   }
 
-module.exports={Food, Fitness, Hollywood, Bollywood, Tech, Latest, TopTech, TopFit, TopFood, TopBolly, TopHolly, Actual, Home, More};
+module.exports={addData, Food, Fitness, Hollywood, Bollywood, Tech, Latest, TopTech, TopFit, TopFood, TopBolly, TopHolly, Actual, Home, More};
