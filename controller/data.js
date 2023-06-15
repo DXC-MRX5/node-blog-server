@@ -1149,7 +1149,7 @@ const Fitness= async(req, res)=>{
     res.send(data);
   }
   const Actual= async(req, res)=>{
-    const receivedParam = req.query.id;
+    const receivedParam = req.query._id;
     console.log("received from url => "+receivedParam);
     const data = await articleModel.findById(receivedParam);
     res.send(data);

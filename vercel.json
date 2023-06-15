@@ -1,10 +1,18 @@
 {
-    "version": 2,
-    "name": "node-blog-server",
-    "builds": [
-       { "src": "index.js", "use": "@vercel/node" }
-    ],
-    "routes": [
-       { "src": "/(.*)", "dest": "/index.js" }
-    ]
+   "env": {
+     "MONGODB_URI": "mongodb+srv://deb2020lancing:82ayan39@blog-database.6yydw6a.mongodb.net/?retryWrites=true&w=majority"
+   },
+   "builds": [
+     {
+       "src": "index.js",
+       "use": "@vercel/node"
+     }
+   ],
+   "routes": [
+     {
+       "src": "/api/(.*)",
+       "dest": "index.js"
+     }
+   ]
  }
+ 
