@@ -1063,6 +1063,7 @@ const addData = async(req,res)=>{
   try{
     const articleData=dataStore.map((info)=>{
         return({
+          ind:info.id,
           cat:info.cat,
           title:info.title,
           genre:info.genre,
@@ -1149,9 +1150,9 @@ const Fitness= async(req, res)=>{
     res.send(data);
   }
   const Actual= async(req, res)=>{
-    const receivedParam = req.query._id;
+    const receivedParam = req.query.ind;
     console.log("received from url => "+receivedParam);
-    const data = await articleModel.findById(receivedParam);
+    const data = await articleModel.findOne({ind:receivedParam});
     res.send(data);
   }
   const Home= async(req, res)=>{

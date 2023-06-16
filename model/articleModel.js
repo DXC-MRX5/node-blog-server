@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const articleSchema = new mongoose.Schema({
+    ind:Number,
     cat:String,
     title:String,
     genre:String,
